@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Agregar Producto</title>
+</head>
+<body>
+    <h2>Agregar Nuevo Producto</h2>
+    <form action="registrar.php" method="POST" enctype="multipart/form-data">
+        <label for="nombre_producto">Nombre del Producto:</label><br>
+        <input type="text" id="nombre_producto" name="nombre_producto" required><br>
+
+        <label for="precio">Precio:</label><br>
+        <input type="number" id="precio" name="precio" step="0.01" required><br>
+
+        <label for="impuesto">Impuesto:</label><br>
+        <input type="number" id="impuesto" name="impuesto" readonly><br>
+
+        <label for="stock">Stock:</label><br>
+        <input type="number" id="stock" name="stock" required><br>
+
+        <label for="id_categoria">ID de Categoría:</label><br>
+        <input type="number" id="id_categoria" name="id_categoria" required><br>
+
+        <label for="descuento">Descuento (%):</label><br>
+        <input type="number" id="descuento" name="descuento" step="0.01"><br>
+
+        <label for="descripcion">Descripción:</label><br>
+        <textarea id="descripcion" name="descripcion"></textarea><br>
+
+        <label for="imagen_producto">Imagen del Producto:</label><br>
+        <input type="file" id="imagen_producto" name="imagen_producto" accept="image/*" required><br>
+
+        <input type="submit" value="Agregar Producto">
+    </form>
+
+    <!-- Script para calcular el impuesto -->
+    <script>
+        document.getElementById('precio').addEventListener('change', function() {
+            var precio = parseFloat(this.value);
+            var impuesto_porcentaje = 0.19; // 19%
+            var impuesto = (precio * impuesto_porcentaje).toFixed(2);
+            document.getElementById('impuesto').value = impuesto;
+        });
+    </script>
+
+    <!-- Script para calcular el precio final con descuento -->
+    <script>
+        document.getElementById('descuento').addEventListener('change', function() {
+            var precio = parseFloat(document.getElementById('precio').value);
+            var descuento = parseFloat(this.value);
+            var descuento_valor = (precio * (descuento / 100)).toFixed(2);
+            var precio_final = (precio + parseFloat(document.getElementById('impuesto').value) - descuento_valor).toFixed(2);
+            document.getElementById('precio_final').textContent = 'Precio Final con Descuento: ' + precio_final;
+        });
+    </script>
+</body>
+</html>
